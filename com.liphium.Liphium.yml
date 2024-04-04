@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/flatpak/flatpak-builder/main/data/flatpak-manifest.schema.json
+
+---
+app-id: com.liphium.Liphium
+runtime: org.freedesktop.Platform
+runtime-version: "22.08"
+sdk: org.freedesktop.Sdk
+command: chat_interface
+separate-locales: false
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --socket=pulseaudio
+  - --share=network
+modules:
+  # Liphium Chat
+  - name: Liphium
+    buildsystem: simple
+    only-arches:
+      - x86_64
+    build-commands:
+      - "./build-flatpak.sh"
+    sources:
+      - type: file
+        url: https://github.com/Liphium/chat_interface/releases/download/0.0.1-dev.2/linux.zip
+        sha256: 88e8944791246b59bb2fbd2b7e0001b353a7110442b85f852c3e5b11c6318e13
+      - type: git
+        url: https://github.com/Liphium/chat_interface.git
+        branch: main
+      - type: file
+        path: build-flatpak.sh
